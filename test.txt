@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Dlllll
 A
 A
@@ -11,3 +12,9 @@ C
 C
 C
 
+=======
+ hello 
+to
+git
+world
+>>>>>>> 01f4622344624187cb29e7615dacd97f3b3e4b0a
