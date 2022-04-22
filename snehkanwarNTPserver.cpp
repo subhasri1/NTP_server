@@ -1,6 +1,6 @@
 #include<iostream>
+#include"gmtcovertor.h"  //header file for gmtcovertor
 using namespace std;
-#include<ctime>
 #include<sys/types.h>
 #include<arpa/inet.h>
 #include<sys/socket.h>
@@ -8,7 +8,6 @@ using namespace std;
 #include<unistd.h>
 #include<stdlib.h>
 #include<errno.h>
-
 
 int main()
 {
@@ -22,16 +21,10 @@ int main()
 	bind(serv_fd, (struct sockaddr *)&sock_addr_serv, sizeof(sock_addr_serv));
 
 	listen(serv_fd,5);
-	while(2)
-	{
+	int GMThour,GMTmin,GMTsec;
+	gmtcovertor(GMThour,GMTmin,GMTsec);
+	cout<<"Current time : "<<GMThour<<":"<<GMTmin<<":"<<GMTsec<<" GMT"<<endl;
 	
-	time_t curr_time;
-	curr_time = time(NULL);
-	tm *tm_gmt = gmtime (&curr_time);
-	cout<<"Current time : "<< tm_gmt->tm_hour  <<":"<<tm_gmt->tm_min <<":"<<tm_gmt->tm_sec<<" GMT"<<endl;
-	sleep(3600);
-	}
-
 	while(1)
 	{
 		cout<<"Waiting for client"<<endl;
