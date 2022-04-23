@@ -3,15 +3,16 @@ using namespace std;
 #include<sys/socket.h>//socket
 #include<unistd.h>//read & write
 #include<arpa/inet.h>//ip
-
+#include<stdio.h>//gets function
+#include<cstring>//strcpy
 class newUser
 {
-	long mobile;
-	string userId,password,emailId;
+	string mobile,name,userId,password,emailId,temp_Password,temp_User;
 	public:
-	
 	void enterDetails();
-	void display();
+	void enterCrediantiels();
+	string addAllInOneString();
+	string crediantils_AddAllInOneString();
 };
 void newUser :: enterDetails()
 {
@@ -19,11 +20,14 @@ void newUser :: enterDetails()
 	cout<<"New User Details "<<endl;
 	cout<<"-------------------------"<<endl;
 	
-	cout<<"\nEnter User ID "<<endl;
+	cout<<"\nEnter your Name "<<endl;
+	//fgets(name,sizeof(name)-1,stdin);
+	getline(cin>>ws,name);
+	cout<<"Enter User ID "<<endl;
 	cin>>userId;
-	cout<<"Enter Email ID "<<endl;
+	cout<<"Enter your Email ID "<<endl;
 	cin>>emailId;
-	cout<<"Enter Mobile Number "<<endl;
+	cout<<"Enter your Mobile Number "<<endl;
 	cin>>mobile;
 	while(1)
 	{
@@ -42,22 +46,27 @@ void newUser :: enterDetails()
 	
 	}
 }
-void newUser :: display()
-{
-	cout<<userId<<" "<<emailId<<" "<<mobile<<" "<<password<<endl;
-}
-
-void enterCrediantiels(string &user,string &password)
+void newUser :: enterCrediantiels()
 {
 	cout<<"Enter your Crediantiels "<<endl;
 	cout<<"-------------------------"<<endl;
 	
 	cout<<"\nEnter Your User ID"<<endl;
-	cin>>user;
+	cin>>temp_User;
 	cout<<"Enter Your Password"<<endl;
-	cin>>password;
+	cin>>temp_Password;
+}
+string newUser :: addAllInOneString()
+{
+	string sum=userId+","+password+","+emailId+","+mobile+","+name;
+	return sum;
 }
 
+string newUser :: crediantils_AddAllInOneString()
+{
+	string sum=temp_User+","+temp_Password;
+	return sum;
+}
 int main()
 {
 	// socket_creation
@@ -72,13 +81,12 @@ int main()
 	//sockaddr of sockaddr_in initialization
 	struct sockaddr_in sock_addr_client;
 	sock_addr_client.sin_family=AF_INET;//donmain ipv4
-	sock_addr_client.sin_port=8088;
+	sock_addr_client.sin_port=99999;
 	sock_addr_client.sin_addr.s_addr=inet_addr("127.0.0.1");
 
 	 
 	//connecting
-	socklen_t len =sizeof(sock_addr_client);
-	int srever_des=connect(client_des,(struct sockaddr *)&sock_addr_client,len);
+	int srever_des=connect(client_des,(struct sockaddr *)&sock_addr_client,sizeof(sock_addr_client));
 	if(srever_des == -1)
 	{
 		perror("Connecting error ");
@@ -86,44 +94,45 @@ int main()
 	}
 	
 	
-	//handshaking with client
+	//handshaking with server
  	char msg[100];
  	read(client_des,&msg,sizeof(msg));
  	cout<<msg<<endl;
-
-
- 	/*string temp_UserId,temp_Password;
-	enterCrediantiels(temp_UserId,temp_Password);
-	cout<<temp_UserId<<" "<<temp_Password<<endl;
-	
-	write(client_des,&temp_UserId,sizeof(temp_UserId));
-	write(client_des,&temp_Password,sizeof(temp_Password));*/
 	
 	
  	//class object
+ 	newUser object;
  	
- 	/*newUser object;
- 	object.enterDetails();
- 	object.display();*/
-	
- 	//send data for server
- 	/*char buff[]="Hello how are you";
- 	write(client_des,&buff,sizeof(buff));*/
+ 	object.enterCrediantiels();
+ 	string cred=object.crediantils_AddAllInOneString();
  	
- 	//ssize_t  send(int socket, const void *buffer, size_t length, int flags);
- 	string buff="Hello how are you";
- 	size_t len1=buff.length();
- 	ssize_t  l=send(client_des,(const void *)&buff,len1,0);
- 	cout<<l<<endl;
+ 	int len=cred.length();
+ 	char char_cred[len];
+	strcpy(char_cred,cred.c_str());
+	char_cred[len]='\0';
+ 	write(client_des,&char_cred,sizeof(char_cred));
+ 	cout<<char_cred;
+ 	
+ 	/*object.enterDetails();
+	string data=object.addAllInOneString();
+	char char_data[data.length()];
+	strcpy(char_data,data.c_str());
+	//cout<<char_data;
+	write(client_des,&char_data,sizeof(char_data));*/
 	
-
+	
+	
+		
 	//socket close
  	if(close(client_des) == -1)
 	{
 		perror("Clint acceptance error ");
 		exit(1);
 	}
-  	 
+  	/*pause();
+  	alarm(3600);
+  	sleep(3600); */
+  	
 	return 0;
 }
 
