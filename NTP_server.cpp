@@ -37,9 +37,8 @@ void user_cred_file_to_map(map<string, string> &user_cred)
 	
 }
 
-int user_cred_authentication(map<string, string> user_cred, char data[],int n)
+char user_cred_authentication(map<string, string> user_cred, char data[],int n)
 {
-	//cout<<data<<endl;
 	int cnt=0;//user,password
 	string user="",password="";
 	for(int i=1;i<n;i++)
@@ -54,13 +53,12 @@ int user_cred_authentication(map<string, string> user_cred, char data[],int n)
 	
 	for(auto i:user_cred)
 	{
-		cout<<i.first<<" "<<user<<endl<<i.second<<" "<<password<<endl;
 		if(i.first==user && i.second==password)
-		return 1;
+		return '1';
 		else if(i.first==user)
-		return 2;
+		return '2';
 	}
-	return 0;
+	return '0';
 }
 
 void user_cred_addition(map<string, string> &user_cred,char new_user_info[],int k)
@@ -124,8 +122,7 @@ int main()
 	//map creation
 	map<string, string>userCred;
 	user_cred_file_to_map(userCred);//cred insertion in map
-	for(auto i:userCred)
-	cout<<i.first<<" "<<i.second<<endl;
+	
 	int x=1;
 	while(x)
 	{
@@ -148,38 +145,39 @@ int main()
 	 	write(cli_des,&msg,sizeof(msg));
 	 	}
 	 	
+	 	while(1)
+	 	{
+	 		int k=0;
+		 	char buffer[size];
+		 	bzero(buffer,sizeof(buffer));	 	
+		 	int n=read(cli_des,&buffer,sizeof(buffer));
+		 	
+		 	if(buffer[0]=='1')
+		 	{
+			 	char ret=user_cred_authentication(userCred,buffer,n);
+			 	write(cli_des,&ret,sizeof(ret));
+			 	if(ret == '1')
+			 		k=1;
+		 	}
+		 	else if(buffer[0]=='2')
+		 	{
+			 	user_cred_addition(userCred,buffer,n);//to write user in file and map
+			 	char msg='3';
+			 	write(cli_des,&msg,sizeof(msg));
+			 	k=1;
+		 	}
+		 	
+			 if(buffer[0]=='e' || k==1)
+			 break;
+		 
+	 	}
 	 	
-	 	char buffer[size];
-	 	bzero(buffer,sizeof(buffer));	 	
-	 	int n=read(cli_des,&buffer,sizeof(buffer));
-	 	//cout<<"from Client side "<<buffer<<endl;
-	 	if(buffer[0]=='1')
-	 	{
-		 	int ret=user_cred_authentication(userCred,buffer,n);
-		 	//cout<<ret<<endl;
-		 	string message;
-		 	if(ret==1)
-		 	message="Login Successful !";
-		 	else if(ret == 2)
-		 	message="Login Credentials are Invalid ! \nPlseae Enter Correct Details";
-		 	else
-		 	message="User not found ! \nEnter 2 for Register your self";
-			
-			int msg_len = message.length();
-			cout<<"message length"<<msg_len<<endl;
-			char msg[msg_len];
-			//bzero(msg,sizeof(msg));
-			strcpy(msg,message.c_str());
-		 	write(cli_des,&msg,sizeof(msg));
-	 	}
-	 	else if(buffer[0]=='2')
-	 	{
-		 	//int k=read(cli_des,&buffer,sizeof(buffer));
-		 	user_cred_addition(userCred,buffer,n);//to write user in file and map
-		 	char msg[]="Registration Successfull";
-		 	write(cli_des,&msg,sizeof(msg));
-	 	}
-	 	 
+	 	
+	 	//take request from client
+	 	
+	 	//statement
+	 	
+	 	
 	}
 	 	
 	//CLOSING the socket 1

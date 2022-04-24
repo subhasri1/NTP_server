@@ -21,20 +21,20 @@ void newUser :: add_new_User()
 	cout<<"New User Details "<<endl;
 	cout<<"-------------------------"<<endl;
 	
-	cout<<"\nEnter your Name "<<endl;
+	cout<<"\nEnter your Name :"<<endl;
 	//fgets(name,sizeof(name)-1,stdin);
 	getline(cin>>ws,name);
-	cout<<"Enter User ID "<<endl;
+	cout<<"Enter User ID :"<<endl;
 	cin>>userId;
-	cout<<"Enter your Email ID "<<endl;
+	cout<<"Enter your Email ID :"<<endl;
 	cin>>emailId;
-	cout<<"Enter your Mobile Number "<<endl;
+	cout<<"Enter your Mobile Number :"<<endl;
 	cin>>mobile;
 	while(1)
 	{
-		cout<<"Enter Password "<<endl;
+		cout<<"Enter Password :"<<endl;
 		cin>>password;
-		cout<<"Enter Re-Password "<<endl;
+		cout<<"Enter Re-Password :"<<endl;
 		cin>>re_password;
 		if(password == re_password)
 		{
@@ -42,19 +42,19 @@ void newUser :: add_new_User()
 		}
 		else
 		{
-			cout<<"Password and Re-Password are not same ! \nPlease Enter again"<<endl;
+			cout<<"\n\nPassword and Re-Password are not same ! \nPlease Enter again\n"<<endl;
 		}
 	
 	}
 }
 void newUser :: existing_user()
 {
-	cout<<"Enter your Crediantiels "<<endl;
+	cout<<"\nEnter your Login Id and Password"<<endl;
 	cout<<"-------------------------"<<endl;
 	
-	cout<<"\nEnter Your User ID"<<endl;
+	cout<<"\nEnter Your User ID :"<<endl;
 	cin>>temp_User;
-	cout<<"Enter Your Password"<<endl;
+	cout<<"Enter Your Password :"<<endl;
 	cin>>temp_Password;
 }
 string newUser :: newUserDataInOneString()
@@ -68,6 +68,9 @@ string newUser :: existingUserCredInOneString()
 	string sum="1"+temp_User+","+temp_Password;
 	return sum;
 }
+
+
+
 int main()
 {
 	// socket_creation
@@ -113,60 +116,87 @@ int main()
 	cout<<"0 : Exit"<<endl;
 	int choice;
 	cin>>choice;
-	switch(choice)
-	{
-		case 0 :	exit(1);
-				
-		case 1 :	{
-				object.existing_user();
- 				string cred=object.existingUserCredInOneString();
- 				int len1=cred.length();
-			 	char char_cred[len1];
-				strcpy(char_cred,cred.c_str());
-				//char_cred[len]='\0';
-				cout<<char_cred<<endl;
-			 	write(client_des,&char_cred,sizeof(char_cred));
-			 	
-			 	char msg[size];
-			 	bzero(msg,sizeof(msg));
-			 	read(client_des,&msg,sizeof(msg));
-			 	cout<<msg<<endl;
-			 	}
-				break;
-				
-		case 2 :	{
-				object.add_new_User();
-				string data=object.newUserDataInOneString();
-				int len2=data.length();
-				char char_data[len2];
-				strcpy(char_data,data.c_str());
-				//char_data[len]='\0';
-				cout<<char_data<<endl;
-				write(client_des,&char_data,sizeof(char_data));
-				
-				char msg[size];
-				bzero(msg,sizeof(msg));
-				read(client_des,&msg,sizeof(msg));
-			 	cout<<msg<<endl;
-				}
-				break;
-				
-		default :	{cout<<"Invalid Entry"<<endl;}
-	}
- 	
- 	
- 	
- 	
-
 	
-	/*pause();
-  	alarm(3600);
-  	sleep(3600); */
+	while(1)
+	{
+		int k=0;
+		switch(choice)
+		{
+			case 0 :	{
+						char msg[]="e";
+						write(client_des,&msg,sizeof(msg));
+						exit(1);
+					}
+					
+			case 1 :	{
+						object.existing_user();
+		 				string cred=object.existingUserCredInOneString();
+		 				int len1=cred.length();
+					 	char char_cred[len1];
+						strcpy(char_cred,cred.c_str());
+					 	write(client_des,&char_cred,sizeof(char_cred));
+					 	
+					 	char ret;
+					 	read(client_des,&ret,sizeof(ret));
+					 	if(ret=='1')
+					 	{
+					 		cout<<"\nLogin Successful !\n"<<endl;
+					 		k=1;
+					 	}
+					 	else if(ret == '2')
+					 	{
+					 		cout<<"\nLogin Credentials are Invalid ! \nPlseae Enter Correct Details"<<endl;
+					 		choice=1;
+					 	}
+					 	else
+					 	{
+					 		cout<<"\nUser not found ! \nEnter 0 for Exit\nEnter 1 for Re-enter Login Id and Password \nEnter 2 for Register your self\n"<<endl;
+					 		cin>>choice;
+					 	}
+				 	}
+					break;
+					
+			case 2 :	{
+						object.add_new_User();
+						string data=object.newUserDataInOneString();
+						int len2=data.length();
+						char char_data[len2];
+						strcpy(char_data,data.c_str());
+						int n =write(client_des,&char_data,sizeof(char_data));
+						
+						char msg;
+						read(client_des,&msg,sizeof(msg));
+						if(msg == '3')
+						{
+					 		cout<<"\nRegistration Successfull"<<endl;
+					 		k=1;
+					 	}
+					}
+					break;
+					
+			default :	{cout<<"\nInvalid Entry"<<endl;}
+		}
+		if(k==1)
+		break;
+ 	}
+ 	
+ 	/*while(1)
+ 	{
+		
+		//request to server
+		
+		//statement
+		
+		
+		pause();
+	  	alarm(3600);
+	  	
+  	}*/
 		
 	//socket close
  	if(close(client_des) == -1)
 	{
-		perror("Clint acceptance error ");
+		perror("Socket Close error ");
 		exit(1);
 	}
   	
