@@ -1,5 +1,8 @@
 #include<iostream>//system call, data types
 using namespace std;
+#include"gmtcovertor.h"  //header file for gmtcovertor
+#include"epochcovertor.h"//header file for epoch convotor
+#include<sys/types.h>
 #include<sys/socket.h>//socket
 #include<unistd.h>//read & write
 #include<arpa/inet.h>//ip
@@ -8,7 +11,13 @@ using namespace std;
 #include<cstring>//strcpy
 #define size 256
 
-
+int  GMThour,GMTmin,GMTsec,GMTmday,GMTmon,GMTyear;
+	gmtcovertor(GMThour,GMTmin,GMTsec,GMTmday,GMTmon,GMTyear);
+	//cout<<"GMT CONVERTED TIME  : "<<GMThour<<":"<<GMTmin<<":"<<GMTsec<<" GMT"<<endl;
+int epochserv;
+	epochcovertor (epochserv,GMThour,GMTmin,GMTsec,GMTmday,GMTmon,GMTyear);
+	//cout<<"Epoch CONVERTED TIME FROM GMT : "<<epochserv<<endl;
+	
 void user_cred_file_to_map(map<string, string> &user_cred)
 {
 	ifstream fin;
