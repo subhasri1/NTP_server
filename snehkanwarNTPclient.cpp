@@ -6,6 +6,7 @@ using namespace std;
 #include<stdio.h>//gets function
 #include<cstring>//strcpy
 #define size 256
+
 class newUser
 {
 	string mobile,name,userId,password,emailId,temp_Password,temp_User;
@@ -179,21 +180,33 @@ int main()
 		if(k==1)
 		break;
  	}
- 	
- 	while(1)
- 	{	
+ 		cout<<"WORKING"<<endl;
 		//request to server
-		//statement
-		char buf[size];
+		char ch[1000],buf[size];
+		cout<<"DO YOU WANT TIME ? (y/n)"<<endl;
+		fgets(ch,sizeof(ch)-1,stdin);
+		int ww=write(client_des,ch,strlen(ch));
 		bzero(buf,sizeof(buf));
-		read(client_des,&buf,sizeof(buf));
-		//cout<<"Read working"<<endl<<n<<endl;
+		int n=read(client_des,&buf,sizeof(buf));
+		cout<<endl;
+		int q=write(client_des,&buf,strlen(buf));
 		//write(1,buf,n);
-		cout<<buf<<endl;
-		sleep(10);
-		//pause();
-	  	//alarm(3600);
-  	}
+		cout<<endl;
+		long cl=stol(buf,nullptr,10);
+		//cout<<cl<<endl;
+		long finalepoch=cl+1000000000;
+		cout<<finalepoch<<endl;;
+		//cout<<buf<<endl;
+		cout<<endl;
+		//statement
+		/*char buf[size];
+		bzero(buf,sizeof(buf));
+		int n=read(client_des,&buf,sizeof(buf));
+		cout<<"Read working"<<endl<<n<<endl;
+		//write(1,buf,n);
+		cout<<buf<<endl;*/
+		int temp= 1651038665;
+		cout<<temp<<" <== Made Up time"<<endl;
 		
 	//socket close
  	if(close(client_des) == -1)
