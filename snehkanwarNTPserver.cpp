@@ -146,21 +146,28 @@ int main()
 	 	char msg[]="Successfull Connection established from the Server";
 	 	write(cli_des,&msg,sizeof(msg));
 	 	}
+	 	
 	 	//while(1)
 	 	//{
-	 	 int  epochserv,GMThour,GMTmin,GMTsec,GMTmday,GMTmon,GMTyear;
-		gmtcovertor(GMThour,GMTmin,GMTsec,GMTmday,GMTmon,GMTyear); 
-		epochcovertor (epochserv,GMThour,GMTmin,GMTsec,GMTmday,GMTmon,GMTyear);
-		//cout<<"Epoch CONVERTED TIME FROM GMT : "<<epochserv<<endl;//epochserv
-		cout<<"Connecting to Clients"<<endl;
-		cout<<"Epoch "<<epochserv<<endl;
-		string s= to_string(epochserv); 
-		char nchar[s.length()] ; 
-		strcpy(nchar,s.c_str());
-		cout<<"Epoch TIME >>"<<nchar<<endl;
-		//sleep(5);
-		int w=write(cli_des,&nchar,sizeof(nchar));
-		cout<<w<<endl;
+	 	 	int  epochserv,GMThour,GMTmin,GMTsec,GMTmday,GMTmon,GMTyear;
+			gmtcovertor(GMThour,GMTmin,GMTsec,GMTmday,GMTmon,GMTyear);
+			epochcovertor (epochserv,GMThour,GMTmin,GMTsec,GMTmday,GMTmon,GMTyear);
+			//cout<<"Epoch CONVERTED TIME FROM GMT : "<<epochserv<<endl;//epochserv
+			cout<<"Connecting to Clients"<<endl;
+			cout<<"Epoch "<<epochserv<<endl;
+			string s= to_string(epochserv); 
+			char nchar[s.length()] ; 
+			strcpy(nchar,s.c_str());
+			//cout<<"Epoch TIME >>"<<nchar<<endl;
+			sleep(5);
+			char che[2000];
+			int z=read(cli_des,che,sizeof(che));
+			bzero(che,sizeof(che));
+			puts(che);
+			bzero(che,sizeof(che));
+			int w=write(cli_des,nchar,sizeof(nchar));
+			//int w=write(cli_des,&nchar,sizeof(nchar));
+			cout<<w<<endl;
 	 	//}
 	}
 	 	
