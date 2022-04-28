@@ -12,8 +12,8 @@ void gmtcovertor(int &GMThour,int &GMTmin,int &GMTsec,int &GMTmday,int &GMTmon,i
 	GMTmin=X->tm_min;
 	GMTsec=X->tm_sec;
 	GMTmday=X->tm_mday;
-	GMTmon=X->tm_mon;
-	GMTyear=X->tm_year;
+	GMTmon=X->tm_mon+1;
+	GMTyear=X->tm_year+1900;
 	//cout<<"day ->"<<GMTmday<<"/"<<GMTmon<<"/"<<GMTyear<<endl;
 	//cout<<GMThour<<endl;
 	return ;
