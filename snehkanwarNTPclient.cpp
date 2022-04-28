@@ -5,7 +5,10 @@ using namespace std;
 #include<arpa/inet.h>//ip
 #include<stdio.h>//gets function
 #include<cstring>//strcpy
+#include"timezoneconv.h"
+
 #define size 256
+#define fsize 256
 
 class newUser
 {
@@ -180,12 +183,10 @@ int main()
 		if(k==1)
 		break;
  	}
- 		cout<<"WORKING"<<endl;
 		//request to server
-		char ch[1000],buf[size];
-		cout<<"DO YOU WANT TIME ? (y/n)"<<endl;
+		char ch[1000],buf[size],buffer[fsize];
 		fgets(ch,sizeof(ch)-1,stdin);
-		int ww=write(client_des,ch,strlen(ch));
+		write(client_des,ch,strlen(ch));
 		bzero(buf,sizeof(buf));
 		int n=read(client_des,&buf,sizeof(buf));
 		cout<<endl;
@@ -194,10 +195,11 @@ int main()
 		cout<<endl;
 		long cl=stol(buf,nullptr,10);
 		//cout<<cl<<endl;
-		long finalepoch=cl+1000000000;
-		cout<<finalepoch<<endl;;
+		long tot=cl+1000000000;
 		//cout<<buf<<endl;
 		cout<<endl;
+		timezoneconv(tot,buffer);
+		cout<<buffer<<endl;
 		//statement
 		/*char buf[size];
 		bzero(buf,sizeof(buf));
@@ -205,8 +207,7 @@ int main()
 		cout<<"Read working"<<endl<<n<<endl;
 		//write(1,buf,n);
 		cout<<buf<<endl;*/
-		int temp= 1651038665;
-		cout<<temp<<" <== Made Up time"<<endl;
+		
 		
 	//socket close
  	if(close(client_des) == -1)
