@@ -70,9 +70,45 @@ string newUser :: existingUserCredInOneString()
 }
 
 
-
-int main()
+int main(int argc,char *argv[])
 {
+	int port=8088;
+	int choice;	
+	//   ./client portnumber 
+	//   ./client  portnumber  user_name 
+
+	if(argc == 1)
+	{	
+		choice = 2;
+	}
+	else if(argc == 2 )
+	{
+		int temp_port=atoi(argv[1]);
+		if(temp_port > 3)
+		port = atoi(argv[1]);	
+		else if(temp_port != 0 && temp_port < 4) 
+		{
+		cout<<"Provide port Number Greater than 3"<<endl;
+		exit(1);
+		}
+		
+		choice = 2;
+	}
+	else if(argc == 3 )
+	{
+		int temp_port=atoi(argv[1]);
+		if(temp_port > 3)
+		port = atoi(argv[1]);	
+		else if(temp_port != 0 && temp_port < 4) 
+		{
+		cout<<"Provide port Number Greater than 3"<<endl;
+		exit(1);
+		}
+		
+		choice = 1;
+	}
+	
+	
 	// socket_creation
 	int client_des=socket(AF_INET,SOCK_STREAM,0); //-1
 	if(client_des == -1)
@@ -85,7 +121,7 @@ int main()
 	//sockaddr of sockaddr_in initialization
 	struct sockaddr_in sock_addr_client;
 	sock_addr_client.sin_family=AF_INET;//donmain ipv4
-	sock_addr_client.sin_port=9999;
+	sock_addr_client.sin_port=port;
 	sock_addr_client.sin_addr.s_addr=inet_addr("127.0.0.1");
 
 	 
@@ -109,13 +145,13 @@ int main()
 	//class object
  	newUser object;
  	
-	cout<<"\nChoose from Menu"<<endl;
+	/*cout<<"\nChoose from Menu"<<endl;
 	cout<<"--------------------"<<endl;
 	cout<<"1 : Existing User"<<endl;
 	cout<<"2 : New User"<<endl;
 	cout<<"0 : Exit"<<endl;
 	int choice;
-	cin>>choice;
+	cin>>choice;*/
 	
 	while(1)
 	{
@@ -162,7 +198,7 @@ int main()
 						int len2=data.length();
 						char char_data[len2];
 						strcpy(char_data,data.c_str());
-						int n =write(client_des,&char_data,sizeof(char_data));
+						write(client_des,&char_data,sizeof(char_data));
 						
 						char msg;
 						read(client_des,&msg,sizeof(msg));
@@ -188,8 +224,8 @@ int main()
 		//statement
 		
 		
-		pause();
-	  	alarm(3600);
+		//pause();
+	  	//alarm(3600);
 	  	
   	}*/
 		
