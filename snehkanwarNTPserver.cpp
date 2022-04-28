@@ -156,8 +156,8 @@ int main()
 			cout<<"Connecting to Clients"<<endl;
 			cout<<"Epoch "<<epochserv<<endl;
 			string s= to_string(epochserv); 
-			char nchar[s.length()] ; 
-			strcpy(nchar,s.c_str());
+			char nchar[s.length()] ; //converting long to char part 1
+			strcpy(nchar,s.c_str()); //part 2
 			//cout<<"Epoch TIME >>"<<nchar<<endl;
 			sleep(5);
 			char che[2000];
