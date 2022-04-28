@@ -9,6 +9,7 @@ using namespace std;
 #include<cstring>//strcpy
 #include<stdlib.h>//atoi
 
+
 #define size 256
 
 int main(int argc,char *argv[])
@@ -80,10 +81,53 @@ int main(int argc,char *argv[])
 	 	login_and_registration_of_user(cli_des,userCred);
 	 	
 	 	
-	 	
+	 	//{
 	 	//take request from client
 	 	
+	 	
 	 	//statement
+	 	char che[size];
+	 	bzero(che,sizeof(che));
+		int z=read(cli_des,&che,sizeof(che));
+		if(string(che)=="Requisting")
+		{
+			//cout<<che<<endl;
+			int  epochserv,GMThour,GMTmin,GMTsec,GMTmday,GMTmon,GMTyear;
+			time_t curr_time;
+			curr_time = time(NULL);
+			
+			//best -> GMT Time
+			best_time_to_GMT_conversion(curr_time,GMThour,GMTmin,GMTsec,GMTmday,GMTmon,GMTyear);
+			
+			//GMT->Epoch
+			GmT_to_epoch_coversion(epochserv,GMThour,GMTmin,GMTsec,GMTmday,GMTmon,GMTyear);
+			
+			//cout<<"Epoch CONVERTED TIME FROM GMT : "<<epochserv<<endl;//epochserv
+			//cout<<"Connecting to Clients"<<endl;
+			//cout<<"Epoch "<<epochserv<<endl;
+			
+			string s= to_string(epochserv); 
+			char nchar[s.length()] ; //converting long to char part 1
+			strcpy(nchar,s.c_str()); //part 2
+			int w=write(cli_des,&nchar,sizeof(nchar));
+			
+			
+			//cout<<"Epoch TIME >>"<<nchar<<endl;
+			//sleep(5);
+			//char che[size];
+			//int z=read(cli_des,che,sizeof(che));
+			//bzero(che,sizeof(che));
+			//puts(che);
+			//bzero(che,sizeof(che));
+			
+			//int w=write(cli_des,nchar,sizeof(nchar));
+			
+			//int w=write(cli_des,&nchar,sizeof(nchar));
+			//cout<<w<<endl;
+	 	}
+	 	
+	 	
+	 	//}
 	 	
 	 	
 	}

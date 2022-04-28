@@ -137,18 +137,41 @@ int main(int argc,char *argv[])
 		break;
  	}
  	
- 	/*while(1)
- 	{
+ 	//while(1)
+ 	//{
 		
 		//request to server
-		
 		//statement
+		
+		char buf[size];
+		string s="Requisting";
+		strcpy(buf,s.c_str());
+		cout<<"Requisting to server for Time"<<endl;
+		write(client_des,&buf,sizeof(buf));
+		
+		bzero(buf,sizeof(buf));
+		int n=read(client_des,&buf,sizeof(buf));
+		//cout<<endl;
+		//int q=write(client_des,&buf,strlen(buf));
+		//write(1,buf,n);
+		//cout<<endl;
+		long Rcv_epoch_Time=stol(buf,nullptr,10);
+		//cout<<cl<<endl;
+		
+		//long tot=Rcv_epoch_Time+1000000000;
+		long tot=Rcv_epoch_Time;
+		
+		cout<<"epoch "<<tot<<endl;
+		//cout<<endl;
+		bzero(buf,sizeof(buf));
+		epoch_to_client_time_zone(tot,buf);
+		cout<<buf<<endl;
 		
 		
 		//pause();
 	  	//alarm(3600);
 	  	
-  	}*/
+  	//}
 		
 	//socket close
  	if(close(client_des) == -1)

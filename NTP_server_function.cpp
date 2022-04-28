@@ -1,6 +1,5 @@
 #include "NTP_server_header.h"
 #include<iostream>//system call, data types
-using namespace std;
 #include<sys/socket.h>//socket
 #include<unistd.h>//read & write
 #include<arpa/inet.h>//ip
@@ -9,6 +8,8 @@ using namespace std;
 #include<cstring>//strcpy
 #include<stdlib.h>//atoi
 
+#include<time.h>//gmt
+using namespace std;
 #define size 256
 void user_cred_file_to_map(map<string, string> &user_cred)//key,value--->userid,password
 {
@@ -118,5 +119,39 @@ void user_cred_addition(map<string, string> &user_cred,char new_user_info[],int 
 	fout<<data;
 	fout<<"\n";
 	fout.close();
+}
+void best_time_to_GMT_conversion(time_t curr_time,int &GMThour,int &GMTmin,int &GMTsec,int &GMTmday,int &GMTmon,int &GMTyear)
+{
+	cout<<curr_time<<endl;
+	//time_t curr_time;
+	//curr_time = time(NULL);
+	tm *X = gmtime (&curr_time);
+	//cout<<"Current time : "<< X->tm_hour  <<":"<<X->tm_min <<":"<<X->tm_sec<<" GMT"<<endl;
+	GMThour=X->tm_hour;
+	GMTmin=X->tm_min;
+	GMTsec=X->tm_sec;
+	GMTmday=X->tm_mday;
+	GMTmon=X->tm_mon+1;
+	GMTyear=X->tm_year+1900;
+	//cout<<"day ->"<<GMTmday<<"/"<<GMTmon<<"/"<<GMTyear<<endl;
+	//cout<<GMThour<<endl;
+
+}
+
+void GmT_to_epoch_coversion(int &epochserv,int &GMThour,int &GMTmin,int &GMTsec,int &GMTmday,int &GMTmon,int &GMTyear)
+{
+	struct tm t={0};//initiazlinzing all to zeros
+	time_t epochtime;
+	t.tm_year=GMTyear-1900;
+	t.tm_mon=GMTmon-1;
+	t.tm_mday=GMTmday;
+	t.tm_hour=GMThour;
+	t.tm_min=GMTmin;
+	t.tm_sec=GMTsec;
+	//t.tm_isdst=-1;                                //Is DST on ? 1 on yes / 0 on no / -1 on unknown
+	epochtime = mktime(&t);
+	//cout<<"Seconds since the Epoch is "<< (long) epochtime<<endl;
+	epochserv=(long) epochtime;
+
 }
 

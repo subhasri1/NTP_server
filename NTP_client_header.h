@@ -17,3 +17,4 @@ class newUser
 };
 
 void choice_and_port_set_on_cmd_line_argument(int argc,char* argv[],int &port,int &choice);
+void epoch_to_client_time_zone(long &tot , char buf[]);

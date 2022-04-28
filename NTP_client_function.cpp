@@ -7,6 +7,7 @@ using namespace std;
 #include<stdio.h>//gets function
 #include<cstring>//strcpy
 
+#define size 256
 void choice_and_port_set_on_cmd_line_argument(int argc,char *argv[],int &port,int &choice)
 {
 	int temp_port;
@@ -109,3 +110,19 @@ string newUser :: existingUserCredInOneString(string user)
 	return sum;
 }
 
+void epoch_to_client_time_zone(long &tot , char buf[size])
+{
+	time_t xepoch_time=tot;
+	
+	/*CONVERT To Struct tm */
+	struct tm *converted_time;
+	converted_time = localtime(&xepoch_time);
+	
+	//tzset();//setting time
+	cout<<converted_time<<endl;
+	strftime(buf,26,"%Y-%m-%d %H:%M:%S",converted_time);
+	cout<<"TIME STAMP ACCORDING TO SYSTEM TIMEZONE=>"<<tzname[converted_time->tm_isdst]<<endl;
+	//timezonetime=buffer+" "+tzname[converted_time->tm_isdst];
+
+	return ;
+}
