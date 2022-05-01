@@ -124,10 +124,6 @@ void user_cred_addition(map<string, string> &user_cred,char new_user_info[],int 
 	fout<<"\n";
 	fout.close();
 }
-void best_time_to_GMT_conversion()
-{
-	
-}
 
 time_t GmT_to_epoch_coversion(tm *X )
 {	

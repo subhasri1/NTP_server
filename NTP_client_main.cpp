@@ -1,3 +1,9 @@
+
+
+//****************************MAIN*******************************
+
+
+
 #include "NTP_client_header.h"
 #include<iostream>//system call, data types
 using namespace std;
@@ -14,6 +20,9 @@ using namespace std;
 #include<ctime>
 #define SIZE 256
 char buffer[SIZE];
+int client_des;
+
+void signal_handler_for_abnormal_termination(int signum);
 
 int main(int argc,char *argv[])
 {
@@ -32,7 +41,7 @@ int main(int argc,char *argv[])
 	
 	
 	// socket_creation
-	int client_des=socket(AF_INET,SOCK_STREAM,0); //-1
+	client_des=socket(AF_INET,SOCK_STREAM,0); //-1
 	foutLog<<"[Info] : Creatinng a client Socket"<<endl;
 	if(client_des == -1)
 	{
@@ -100,13 +109,14 @@ int main(int argc,char *argv[])
 					}
 					
 			case 1 :	{
+						foutLog<<"[INFO] : User Validation"<<endl;
 						object.existing_user(argv[1],cnt); //for existing user password
 			 			string cred=object.existingUserCredInOneString(argv[1]); //user id and password into one string
 			 			int len1=cred.length();
 						char char_cred[len1];
 						strcpy(char_cred,cred.c_str());
 						n=write(client_des,&char_cred,sizeof(char_cred));//credentials sending to server
-						if(n!=strlen(char_cred)==0)
+						if(n==strlen(char_cred)==0)
 					 	{
 					 		cout<<"Existing user : Error in Sending of Credentials "<<endl;
 					 	}
@@ -141,6 +151,7 @@ int main(int argc,char *argv[])
 					break;
 					
 			case 2 :	{
+						foutLog<<"[INFO] : User Creation"<<endl;
 						object.add_new_User();//new user data
 						string data=object.newUserDataInOneString(); //new user data in one string
 						int len2=data.length();
@@ -162,7 +173,9 @@ int main(int argc,char *argv[])
 					}
 					break;
 					
-			default :	{cout<<"\nInvalid Entry"<<endl;}
+			default :	{
+					foutLog<<"[warning] : Inavlid Enrty"<<endl;
+					cout<<"\nInvalid Entry"<<endl;}
 		}
 		
 		if(k==1)
@@ -170,12 +183,14 @@ int main(int argc,char *argv[])
  	}
  	
  	signal(SIGALRM,sig_handler);
+ 	signal(SIGINT,signal_handler_for_abnormal_termination);
  	while(1)
  	{
 		
 		//request to server
 		//statement
 		
+		foutLog<<"[INFO] : Requesting to Server for a Server Time"<<endl;
 		string s="Requisting";
 		strcpy(buffer,s.c_str());
 		cout<<"Requisting to server for Time"<<endl;
@@ -187,49 +202,60 @@ int main(int argc,char *argv[])
 		
 		//epoch from buffer to time_t
 		time_t epoch_from_server=(time_t)stol(buffer,nullptr,10);
-		cout<<epoch_from_server<<endl;
+		//cout<<epoch_from_server<<endl;
 		
 		//epoch to local time
 		tm * epoch_to_local; // decalring variable for localtime()
-		//time (&epoch_from_server); //passing argument to time() ->epoch
+	
 		epoch_to_local = localtime(&epoch_from_server);
-		cout << "Epoch to Local Time"<< asctime(epoch_to_local);
-		
+		cout<<"\n*****************************************************************************"<<endl;
+		cout << "Server Time according to Local Zone "<< asctime(epoch_to_local)<<endl;
+		cout<<"*****************************************************************************"<<endl;
 		//System hardware Time
 		time_t t; // t passed as argument in function time()
    		tm * HW_time; // decalring variable for localtime()
    		time (&t); //passing argument to time() ->epoch
    		HW_time = localtime(&t);
-   		cout << "Hardarwe Time "<< asctime(HW_time);
-   
+   		cout << "Client Hardarwe Time "<< asctime(HW_time);
+   		cout<<"*****************************************************************************\n"<<endl;
    		//HW clock updation of client if Diff of time in HW time and server Time > 0
 		if(difftime((time_t)epoch_to_local,(time_t)HW_time) != 0)
 		{
 			struct timespec stime;
-			//time_t tim=1617282920;
-		 	int n =clock_settime( epoch_from_server, &stime)
-		 	if(n == -1)
+		 	int p=clock_settime( epoch_from_server, &stime);
+		 	if(p == -1)
 		 	{
-		 		perror("Error in setting the clock Time of Client");
-		 		exit(1);
+		 	perror("error in settting of Hardware clock");
+		 	exit(1);
 		 	}
+		 	
+		 	cout<<"Clock is synchronised with server time\n\n"<<endl;
 			
+		}
+		else
+		{
+		cout<<"Clock is already synchronised\n\n"<<endl;
 		}
 		
 		//for every one hour synchonising
 		
-	  	alarm(30);
+	  	alarm(5);
 	  	pause();
   	}
 		
+	return 0;
+}
+//signal Handler
+void signal_handler_for_abnormal_termination(int signum)
+{
+	char msg[]="bye";
+	write(client_des,&msg,sizeof(msg));
+	
 	//socket close
- 	if(close(client_des) == -1)
+	if(close(client_des) == -1)
 	{
 		perror("Socket Close error ");
 		exit(1);
 	}
-  	
-	return 0;
+		exit(1);
 }
-
-

@@ -22,11 +22,6 @@ time_t gettimefromLocalMachine();
 
 time_t gettimefromserver(char* hname );
 
-
-
-
-void best_time_to_GMT_conversion();
-
 time_t GmT_to_epoch_coversion(tm *best_time_gmt);
 
 

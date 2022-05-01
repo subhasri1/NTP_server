@@ -99,21 +99,8 @@ string newUser :: existingUserCredInOneString(string user)
 	return sum;
 }
 
-//converting epoch to client time zone
-void epoch_to_client_time_zone(long &tot , char buf[size])
-{
-	time_t xepoch_time=tot;
-	
-	/*CONVERT To Struct tm */
-	struct tm *converted_time;
-	converted_time = localtime(&xepoch_time);
-	
-	strftime(buf,26,"%Y-%m-%d %H:%M:%S",converted_time);
-	cout<<"TIME STAMP ACCORDING TO SYSTEM TIMEZONE=>"<<tzname[converted_time->tm_isdst]<<endl;
-	
-}
-
 void sig_handler(int signum)
 {	 
   
 }
+

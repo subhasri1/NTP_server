@@ -33,8 +33,5 @@ class newUser
 //handling of choice according to cmd arguments 
 void choice_and_port_set_on_cmd_line_argument(int argc,char* argv[],int &port,int &choice);
 
-//epoch to client time zone
-void epoch_to_client_time_zone(long &tot , char buf[]);
-
+//signal handler
 void sig_handler(int signum);
-
