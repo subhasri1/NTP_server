@@ -149,7 +149,8 @@ int main()
 	 	
 	 	//while(1)
 	 	//{
-	 	 	int  epochserv,GMThour,GMTmin,GMTsec,GMTmday,GMTmon,GMTyear;
+	 	 	int  GMThour,GMTmin,GMTsec,GMTmday,GMTmon,GMTyear;
+	 	 	long epochserv;
 			gmtcovertor(GMThour,GMTmin,GMTsec,GMTmday,GMTmon,GMTyear);
 			epochcovertor (epochserv,GMThour,GMTmin,GMTsec,GMTmday,GMTmon,GMTyear);
 			//cout<<"Epoch CONVERTED TIME FROM GMT : "<<epochserv<<endl;//epochserv

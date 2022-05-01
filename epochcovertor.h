@@ -2,7 +2,7 @@
 #include<time.h>
 using namespace std;
 
-void epochcovertor (int &epochserv,int &GMThour,int &GMTmin,int &GMTsec,int &GMTmday,int &GMTmon,int &GMTyear)
+void epochcovertor (long &epochserv,int &GMThour,int &GMTmin,int &GMTsec,int &GMTmday,int &GMTmon,int &GMTyear)
 {
 	struct tm t={0};//initiazlinzing all to zeros
 	time_t epochtime;
