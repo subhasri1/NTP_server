@@ -1,16 +1,5 @@
 #include "NTP_server_header.h"
-#include<iostream>//system call, data types
-#include<sys/socket.h>//socket
-#include<unistd.h>//read & write
-#include<arpa/inet.h>//ip
-#include<fstream>//filehandling
-#include<map>//map STL
-#include<cstring>//strcpy
-#include<stdlib.h>//atoi
 
-
-#include<time.h>//gmt
-using namespace std;
 #define size 256
 
 //userid and password copying from file to STL

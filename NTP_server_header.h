@@ -5,10 +5,14 @@ using namespace std;
 #include<arpa/inet.h>//ip
 #include<fstream>//filehandling
 #include<map>//map STL
-#include<cstring>//strcpy
 #include<stdlib.h>//atoi
+#include <string.h>
+#include <time.h>
+#include <sys/types.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <wait.h>
 
-#include<ctime>
 
 void user_cred_file_to_map(map<string, string> &user_cred);//key,value--->userid,password
 

@@ -1,11 +1,4 @@
 #include "NTP_client_header.h"
-#include<iostream>//system call, data types
-using namespace std;
-#include<sys/socket.h>//socket
-#include<unistd.h>//read & write
-#include<arpa/inet.h>//ip
-#include<stdio.h>//gets function
-#include<cstring>//strcpy
 
 #define size 256
 void choice_and_port_set_on_cmd_line_argument(int argc,char *argv[],int &port,int &choice)

@@ -2,27 +2,17 @@
 
 //****************************MAIN*******************************
 
-
-
 #include "NTP_client_header.h"
-#include<iostream>//system call, data types
-using namespace std;
-#include<sys/socket.h>//socket
-#include<unistd.h>//read & write
-#include<arpa/inet.h>//ip
-#include<stdio.h>//gets function
-//#include<cstring>//strcpy
-#include<signal.h>//signal
-#include<string.h>
-#include<fstream>
 
-#include<time.h>
-#include<ctime>
 #define SIZE 256
 char buffer[SIZE];
 int client_des;
 
 void signal_handler_for_abnormal_termination(int signum);
+
+
+
+
 
 int main(int argc,char *argv[])
 {
@@ -242,7 +232,8 @@ int main(int argc,char *argv[])
 	  	alarm(5);
 	  	pause();
   	}
-		
+  	
+	foutLog.close();	
 	return 0;
 }
 //signal Handler

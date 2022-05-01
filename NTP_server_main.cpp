@@ -3,17 +3,7 @@
 //****************************MAIN*******************************
 
 #include "NTP_server_header.h"
-#include<iostream>//system call, data types
-using namespace std;
-#include<sys/socket.h>//socket
-#include<unistd.h>//read & write
-#include<arpa/inet.h>//ip
-#include<fstream>//filehandling
-#include<map>//map STL
-#include<cstring>//strcpy
-#include<stdlib.h>//atoi
-#include <wait.h>
-#include<fstream>
+
 #define SIZE 256
 
 char buffer[SIZE];
@@ -139,7 +129,7 @@ int main(int argc,char *argv[])
 		perror("Client acceptance error ");
 		exit(1);
 	}
-  
+  	foutlog.close();	
 	return 0;
 }
 
@@ -204,6 +194,5 @@ void transact_with_client(int cli_des)
 			strcpy(ep,tim.c_str());
 			write(cli_des,&ep,sizeof(ep));
 		
-		}//end pof inner loop	
-	
+		}//end pof inner loop
 }

@@ -4,7 +4,12 @@ using namespace std;
 #include<unistd.h>//read & write
 #include<arpa/inet.h>//ip
 #include<stdio.h>//gets function
-#include<cstring>//strcpy
+#include<signal.h>//signal
+#include<string.h>
+#include<fstream>
+#include<map>//map STL
+#include<stdlib.h>//atoi
+#include<time.h>//gmt
 
 class newUser
 {
