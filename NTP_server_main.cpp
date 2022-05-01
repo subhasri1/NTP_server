@@ -10,15 +10,14 @@ using namespace std;
 #include<stdlib.h>//atoi
 
 
-#define size 256
+#define SIZE 256
+
+char buffer[SIZE];
 
 int main(int argc,char *argv[])
 {
 	int port=8088;
-	if(argc == 2)
-	{
-		port = atoi(argv[1]);
-	}
+	int n;
 	// socket_creation
 	int sock_des=socket(AF_INET,SOCK_STREAM,0); //-1
 	if(sock_des == -1)
@@ -73,64 +72,84 @@ int main(int argc,char *argv[])
 		}
 		else
 		{
-	 	//handshaking with client
-	 	char msg[]="Successfull Connection established from the Server";
-	 	write(cli_des,&msg,sizeof(msg));
+		 	//handshaking with client
+		 	char msg[]="Successfull Connection established from the Server";
+		 	n=write(cli_des,&msg,sizeof(msg));
+		 	if(n!=strlen(msg)==0)
+			{
+				cout<<"Hanshaking : Error in Sending Message from Server"<<endl;
+			}	
 	 	}
 	 	
-	 	login_and_registration_of_user(cli_des,userCred);
-	 	
-	 	
-	 	//{
-	 	//take request from client
-	 	
-	 	
-	 	//statement
-	 	char che[size];
-	 	bzero(che,sizeof(che));
-		int z=read(cli_des,&che,sizeof(che));
-		if(string(che)=="Requisting")
-		{
-			//cout<<che<<endl;
-			int  epochserv,GMThour,GMTmin,GMTsec,GMTmday,GMTmon,GMTyear;
-			time_t curr_time;
-			curr_time = time(NULL);
+		 //Login or Registration
+		 
+		 login_and_registration_of_user(cli_des,userCred);
+		 
+		 while(1)
+		 {
+			 bzero(buffer,sizeof(buffer)); 
+			 read(cli_des,&buffer,sizeof(buffer));
+			 cout<<buffer<<" By Client for Time"<<endl;
+			 
+			char* host_name1 = "us.pool.ntp.org";
+			char* host_name2 = "time.google.com";
 			
-			//best -> GMT Time
-			best_time_to_GMT_conversion(curr_time,GMThour,GMTmin,GMTsec,GMTmday,GMTmon,GMTyear);
-			
-			//GMT->Epoch
-			GmT_to_epoch_coversion(epochserv,GMThour,GMTmin,GMTsec,GMTmday,GMTmon,GMTyear);
-			
-			//cout<<"Epoch CONVERTED TIME FROM GMT : "<<epochserv<<endl;//epochserv
-			//cout<<"Connecting to Clients"<<endl;
-			//cout<<"Epoch "<<epochserv<<endl;
-			
-			string s= to_string(epochserv); 
-			char nchar[s.length()] ; //converting long to char part 1
-			strcpy(nchar,s.c_str()); //part 2
-			int w=write(cli_des,&nchar,sizeof(nchar));
+			//time from local, server1 and server2
+			time_t local_time=gettimefromLocalMachine();
+			time_t server1_time=gettimefromserver(host_name1);
+			time_t server2_time=gettimefromserver(host_name2);
 			
 			
-			//cout<<"Epoch TIME >>"<<nchar<<endl;
-			//sleep(5);
-			//char che[size];
-			//int z=read(cli_des,che,sizeof(che));
-			//bzero(che,sizeof(che));
-			//puts(che);
-			//bzero(che,sizeof(che));
+			//time difference
+			long diff_time1,diff_time2,diff_time3;
+			diff_time1=difftime(local_time, server1_time);
+			diff_time2=difftime(local_time, server2_time);
+			diff_time3=difftime(server2_time, server1_time);
 			
-			//int w=write(cli_des,nchar,sizeof(nchar));
+			//Best Time selection
+		  	time_t best_time;
+		  	
+			if(diff_time1 < diff_time2 && diff_time1 < diff_time3)
+			{
+				best_time=local_time;
+			}
+			else if(diff_time2 < diff_time3 && diff_time2 < diff_time1)
+			{
+				best_time=local_time;
+			}
+			else
+			{
+				best_time=server2_time;
+			}
 			
-			//int w=write(cli_des,&nchar,sizeof(nchar));
-			//cout<<w<<endl;
-	 	}
-	 	
-	 	
-	 	//}
-	 	
-	 	
-	}
+			//best time to gmt
+			
+			tm * best_time_gmt;
+		  	best_time_gmt = gmtime ( &best_time);
+		  	
+		  	//cout << "Best time: " << best_time_gmt->tm_hour << ":" << best_time_gmt->tm_min << ":" << best_time_gmt->tm_sec << " GMT"<<endl;
+			 
+			 //Best time gmt to epoch
+			time_t epoch_time=GmT_to_epoch_coversion(best_time_gmt);
+			
+			//cout<<"Recieved "<<epoch_time<<endl;
+			
+			//tm * bt;
+			//bt =gmtime(&epoch_time);
+			//cout << "Best time: " << bt->tm_hour << ":" << bt->tm_min << ":" << bt->tm_sec << " GMT"<<endl;
+			
+			//epoch to char
+			string tim=to_string(epoch_time);
+			//cout<<"string"<<tim<<endl;
+			char ep[SIZE];
+			strcpy(ep,tim.c_str());
+			write(cli_des,&ep,sizeof(ep));
+		
+		}//end pof inner loop
+	
+	} //end of server acceptance loop
+	 
+
 	 	
 	//CLOSING the socket 1
 	if(close(sock_des) == -1)

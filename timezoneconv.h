@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void timezoneconv(long &tot , char buffer[fsize])
+void timezoneconv(long &tot , char buf[size])
 {
 	time_t xepoch_time=tot;
 	
@@ -14,7 +14,7 @@ void timezoneconv(long &tot , char buffer[fsize])
 	
 	tzset();//setting time
 	
-	strftime(buffer,26,"%Y-%m-%d %H:%M:%S",converted_time);
+	strftime(buf,26,"%Y-%m-%d %H:%M:%S",converted_time);
 	cout<<"TIME STAMP ACCORDING TO SYSTEM TIMEZONE=>"<<tzname[converted_time->tm_isdst]<<endl;
 	//timezonetime=buffer+" "+tzname[converted_time->tm_isdst];
 

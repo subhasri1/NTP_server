@@ -14,35 +14,22 @@ void choice_and_port_set_on_cmd_line_argument(int argc,char *argv[],int &port,in
 	
 	if(argc == 1)
 	{	
-		choice = 2;
+		choice = 2;//creating a new user
 	}
 	else if(argc == 2 )
 	{
-		temp_port=atoi(argv[1]);
-		if(temp_port > 3)
-		port = atoi(argv[1]);	
-		else if(temp_port != 0 && temp_port < 4) 
-		{
-		cout<<"Provide port Number Greater than 3"<<endl;
-		exit(1);
-		}
 		
-		choice = 2;
+		choice = 1; //taking the password of existing user
+		
 	}
-	else if(argc == 3 )
-	{
-		temp_port=atoi(argv[1]);
-		if(temp_port > 3)
-		port = atoi(argv[1]);	
-		else if(temp_port != 0 && temp_port < 4) 
-		{
-		cout<<"Provide port Number Greater than 3"<<endl;
+	else
+	{	
+		cout<<"Invalid Entry !"<<endl;
 		exit(1);
-		}
-		
-		choice = 1;
 	}
 }
+
+// registering a new user
 void newUser :: add_new_User()
 {
 	string re_password;
@@ -64,6 +51,8 @@ void newUser :: add_new_User()
 		cin>>password;
 		cout<<"Enter Re-Password :"<<endl<<"=> ";
 		cin>>re_password;
+		
+		//password validation for correct password
 		if(password == re_password)
 		{
 			break;
@@ -75,6 +64,8 @@ void newUser :: add_new_User()
 	
 	}
 }
+
+//asking a password of existing user
 void newUser :: existing_user(string user,int cnt)
 {
 	if(cnt==3)
@@ -82,9 +73,6 @@ void newUser :: existing_user(string user,int cnt)
 	cout<<"\n\nExisting User"<<endl;
 	cout<<"------------------------------------"<<endl;
 	cout<<"User Id : "<<user<<endl;
-	//cout<<"Only "<<cnt<<" Attempts Left !"<<endl;
-	/*cout<<"\nEnter Your User ID :"<<endl;
-	cin>>temp_User;*/
 	cout<<"Enter Your Password :"<<endl<<"=> ";
 	cin>>temp_Password;
 	}
@@ -92,24 +80,26 @@ void newUser :: existing_user(string user,int cnt)
 	{
 	cout<<"\nLogin Credentials are Invalid !"<<endl;
 	cout<<"Only "<<cnt<<" Attempts Left !"<<endl;
-	/*cout<<"\nEnter Your User ID :"<<endl;
-	cin>>temp_User;*/
 	cout<<"Please enter your Correct Password :"<<endl<<"=> ";
 	cin>>temp_Password;
 	}
 }
+
+//converting all data of new user in to one string
 string newUser :: newUserDataInOneString()
 {
 	string sum="2"+userId+","+password+","+emailId+","+mobile+","+name;
 	return sum;
 }
 
+//converting userid and password of exixting user in to one string
 string newUser :: existingUserCredInOneString(string user)
 {
 	string sum="1"+user+","+temp_Password;
 	return sum;
 }
 
+//converting epoch to client time zone
 void epoch_to_client_time_zone(long &tot , char buf[size])
 {
 	time_t xepoch_time=tot;
@@ -118,11 +108,12 @@ void epoch_to_client_time_zone(long &tot , char buf[size])
 	struct tm *converted_time;
 	converted_time = localtime(&xepoch_time);
 	
-	//tzset();//setting time
-	cout<<converted_time<<endl;
 	strftime(buf,26,"%Y-%m-%d %H:%M:%S",converted_time);
 	cout<<"TIME STAMP ACCORDING TO SYSTEM TIMEZONE=>"<<tzname[converted_time->tm_isdst]<<endl;
-	//timezonetime=buffer+" "+tzname[converted_time->tm_isdst];
+	
+}
 
-	return ;
+void sig_handler(int signum)
+{	 
+  
 }

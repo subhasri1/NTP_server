@@ -5,25 +5,39 @@ using namespace std;
 #include<unistd.h>//read & write
 #include<arpa/inet.h>//ip
 #include<stdio.h>//gets function
-#include<cstring>//strcpy
-#define size 256
+//#include<cstring>//strcpy
+#include<signal.h>//signal
+#include<string.h>
+#include<fstream>
+
+#include<time.h>
+#include<ctime>
+#define SIZE 256
+char buffer[SIZE];
 
 int main(int argc,char *argv[])
 {
 	int port=8088;
-	int choice;	
-	//   ./client portnumber 
-	//   ./client  portnumber  user_name 
+	int choice;
+	int n;	
+	ofstream foutLog;
+	foutLog.open("client.log",ios::app);
+	//   ./client  -> argc =1 ->new user
+	//   ./client user_name  ->argc 2 ->existing user
 	
+	//handle choice on the base of number of argument
+	foutLog<<"[Info] : setting the choice on the bases of Number of Arguments"<<endl;	
 	choice_and_port_set_on_cmd_line_argument(argc,argv,port,choice);
 	
 	
 	
 	// socket_creation
 	int client_des=socket(AF_INET,SOCK_STREAM,0); //-1
+	foutLog<<"[Info] : Creatinng a client Socket"<<endl;
 	if(client_des == -1)
 	{
 		perror("Socket creation error ");
+		foutLog<<"error : Client Socket creation Error"<<endl;
 		exit(1);
 	}
 
@@ -36,32 +50,42 @@ int main(int argc,char *argv[])
 
 	 
 	//connecting
+	foutLog<<"[Info] : Connecting to server"<<endl;
 	int srever_des=connect(client_des,(struct sockaddr *)&sock_addr_client,sizeof(sock_addr_client));
 	if(srever_des == -1)
 	{
 		perror("Connecting error ");
+		foutLog<<"[error] : Connecting to server error"<<endl;
 		exit(1);
 	}
 	else
 	{
-	//handshaking with server
- 	char msg[size];
- 	bzero(msg,sizeof(msg));
- 	read(client_des,&msg,sizeof(msg));
- 	cout<<msg<<endl;
+		foutLog<<"[Info] : Handshaking to server"<<endl;
+		//handshaking with server
+	 	char msg[SIZE];
+	 	bzero(msg,sizeof(msg));
+	 	n=read(client_des,&msg,sizeof(msg));
+	 	if(n!=strlen(msg)==0)
+	 	{
+	 		cout<<"Handshaking : Error in Reading "<<endl;
+	 		foutLog<<"[error] : Handshaking to server failed"<<endl;
+	 	}else
+	 	{ 
+	 		cout<<msg<<endl;
+	 	}
  	}
 	
 	
 	//class object
  	newUser object;
  	
-	/*cout<<"\nChoose from Menu"<<endl;
-	cout<<"--------------------"<<endl;
-	cout<<"1 : Existing User"<<endl;
-	cout<<"2 : New User"<<endl;
-	cout<<"0 : Exit"<<endl;
-	int choice;
-	cin>>choice;*/
+	
+	/*
+	"1 : Existing User"
+	"2 : New User"
+	"0 : Exit"
+	*/
+
 	int cnt=3;
 	while(1)
 	{
@@ -69,21 +93,26 @@ int main(int argc,char *argv[])
 		switch(choice)
 		{
 			case 0 :	{
+						//terminating the process
 						char msg[]="e";
 						write(client_des,&msg,sizeof(msg));
 						exit(1);
 					}
 					
 			case 1 :	{
-						object.existing_user(argv[2],cnt);
-			 			string cred=object.existingUserCredInOneString(argv[2]);
+						object.existing_user(argv[1],cnt); //for existing user password
+			 			string cred=object.existingUserCredInOneString(argv[1]); //user id and password into one string
 			 			int len1=cred.length();
 						char char_cred[len1];
 						strcpy(char_cred,cred.c_str());
-						write(client_des,&char_cred,sizeof(char_cred));
+						n=write(client_des,&char_cred,sizeof(char_cred));//credentials sending to server
+						if(n!=strlen(char_cred)==0)
+					 	{
+					 		cout<<"Existing user : Error in Sending of Credentials "<<endl;
+					 	}
 						 	
 						char ret;
-						 read(client_des,&ret,sizeof(ret));
+						 read(client_des,&ret,sizeof(ret)); //reading the res of server
 						 if(ret=='1')
 						 {
 						 	cout<<"\nLogin Successful !\n\n"<<endl;
@@ -94,8 +123,6 @@ int main(int argc,char *argv[])
 						 	if(cnt>1)//3 2 1
 						 	{
 						 	cnt--;
-						 	//cout<<"Only "<<cnt<<" Attempts Left !"<<endl;
-						 	//cout<<"\nLogin Credentials are Invalid ! \nPlseae Enter Correct Details"<<endl;
 						 	choice=1;
 						 	}
 						 	else
@@ -114,15 +141,19 @@ int main(int argc,char *argv[])
 					break;
 					
 			case 2 :	{
-						object.add_new_User();
-						string data=object.newUserDataInOneString();
+						object.add_new_User();//new user data
+						string data=object.newUserDataInOneString(); //new user data in one string
 						int len2=data.length();
 						char char_data[len2];
 						strcpy(char_data,data.c_str());
-						write(client_des,&char_data,sizeof(char_data));
-						
-						char msg;
-						read(client_des,&msg,sizeof(msg));
+						n=write(client_des,&char_data,sizeof(char_data)); //data sending to server
+						if(n!=strlen(char_data)==0)
+					 	{
+					 		cout<<"New user : Error in Sending of Data "<<endl;
+					 	}
+					 	
+						char msg;				
+						read(client_des,&msg,sizeof(msg)); //reading the res from server
 						if(msg == '3')
 						{
 					 		cout<<"\n\nRegistration Successfull\n"<<endl;
@@ -133,45 +164,63 @@ int main(int argc,char *argv[])
 					
 			default :	{cout<<"\nInvalid Entry"<<endl;}
 		}
+		
 		if(k==1)
 		break;
  	}
  	
- 	//while(1)
- 	//{
+ 	signal(SIGALRM,sig_handler);
+ 	while(1)
+ 	{
 		
 		//request to server
 		//statement
 		
-		char buf[size];
 		string s="Requisting";
-		strcpy(buf,s.c_str());
+		strcpy(buffer,s.c_str());
 		cout<<"Requisting to server for Time"<<endl;
-		write(client_des,&buf,sizeof(buf));
+		write(client_des,&buffer,sizeof(buffer));
 		
-		bzero(buf,sizeof(buf));
-		int n=read(client_des,&buf,sizeof(buf));
-		//cout<<endl;
-		//int q=write(client_des,&buf,strlen(buf));
-		//write(1,buf,n);
-		//cout<<endl;
-		long Rcv_epoch_Time=stol(buf,nullptr,10);
-		//cout<<cl<<endl;
+		bzero(buffer,sizeof(buffer));
+		int n=read(client_des,&buffer,sizeof(buffer));
+		//cout<<buffer<<endl;
 		
-		//long tot=Rcv_epoch_Time+1000000000;
-		long tot=Rcv_epoch_Time;
+		//epoch from buffer to time_t
+		time_t epoch_from_server=(time_t)stol(buffer,nullptr,10);
+		cout<<epoch_from_server<<endl;
 		
-		cout<<"epoch "<<tot<<endl;
-		//cout<<endl;
-		bzero(buf,sizeof(buf));
-		epoch_to_client_time_zone(tot,buf);
-		cout<<buf<<endl;
+		//epoch to local time
+		tm * epoch_to_local; // decalring variable for localtime()
+		//time (&epoch_from_server); //passing argument to time() ->epoch
+		epoch_to_local = localtime(&epoch_from_server);
+		cout << "Epoch to Local Time"<< asctime(epoch_to_local);
 		
+		//System hardware Time
+		time_t t; // t passed as argument in function time()
+   		tm * HW_time; // decalring variable for localtime()
+   		time (&t); //passing argument to time() ->epoch
+   		HW_time = localtime(&t);
+   		cout << "Hardarwe Time "<< asctime(HW_time);
+   
+   		//HW clock updation of client if Diff of time in HW time and server Time > 0
+		if(difftime((time_t)epoch_to_local,(time_t)HW_time) != 0)
+		{
+			struct timespec stime;
+			//time_t tim=1617282920;
+		 	int n =clock_settime( epoch_from_server, &stime)
+		 	if(n == -1)
+		 	{
+		 		perror("Error in setting the clock Time of Client");
+		 		exit(1);
+		 	}
+			
+		}
 		
-		//pause();
-	  	//alarm(3600);
-	  	
-  	//}
+		//for every one hour synchonising
+		
+	  	alarm(30);
+	  	pause();
+  	}
 		
 	//socket close
  	if(close(client_des) == -1)

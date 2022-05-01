@@ -8,6 +8,7 @@ using namespace std;
 #include<cstring>//strcpy
 #include<stdlib.h>//atoi
 
+#include<ctime>
 
 void user_cred_file_to_map(map<string, string> &user_cred);//key,value--->userid,password
 
@@ -17,6 +18,15 @@ char user_cred_authentication(map<string, string> user_cred, char data[],int n);
 
 void user_cred_addition(map<string, string> &user_cred,char new_user_info[],int k);
 
-void best_time_to_GMT_conversion(time_t curr_time,int &GMThour,int &GMTmin,int &GMTsec,int &GMTmday,int &GMTmon,int &GMTyear);
+time_t gettimefromLocalMachine();
 
-void GmT_to_epoch_coversion(int &epochserv,int &GMThour,int &GMTmin,int &GMTsec,int &GMTmday,int &GMTmon,int &GMTyear);
+time_t gettimefromserver(char* hname );
+
+
+
+
+void best_time_to_GMT_conversion();
+
+time_t GmT_to_epoch_coversion(tm *best_time_gmt);
+
+

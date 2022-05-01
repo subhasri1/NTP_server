@@ -8,9 +8,12 @@
 #include<cstring>//strcpy
 #include<stdlib.h>//atoi
 
+
 #include<time.h>//gmt
 using namespace std;
 #define size 256
+
+//userid and password copying from file to STL
 void user_cred_file_to_map(map<string, string> &user_cred)//key,value--->userid,password
 {
 	ifstream fin;
@@ -39,6 +42,7 @@ void user_cred_file_to_map(map<string, string> &user_cred)//key,value--->userid,
 	
 }
 
+//reading the data from client
 void login_and_registration_of_user(int cli_des,map<string, string> userCred)
 {
 
@@ -70,7 +74,7 @@ void login_and_registration_of_user(int cli_des,map<string, string> userCred)
 	 	}
 }
 
-
+//existing user authetication
 char user_cred_authentication(map<string, string> user_cred, char data[],int n)
 {
 	int cnt=0;//user,password
@@ -96,7 +100,7 @@ char user_cred_authentication(map<string, string> user_cred, char data[],int n)
 }
 
 
-
+//inserting a new user in to stl and also storing in to file
 void user_cred_addition(map<string, string> &user_cred,char new_user_info[],int k)
 {
 	int cnt=0;//user,password
@@ -120,38 +124,23 @@ void user_cred_addition(map<string, string> &user_cred,char new_user_info[],int 
 	fout<<"\n";
 	fout.close();
 }
-void best_time_to_GMT_conversion(time_t curr_time,int &GMThour,int &GMTmin,int &GMTsec,int &GMTmday,int &GMTmon,int &GMTyear)
+void best_time_to_GMT_conversion()
 {
-	cout<<curr_time<<endl;
-	//time_t curr_time;
-	//curr_time = time(NULL);
-	tm *X = gmtime (&curr_time);
-	//cout<<"Current time : "<< X->tm_hour  <<":"<<X->tm_min <<":"<<X->tm_sec<<" GMT"<<endl;
-	GMThour=X->tm_hour;
-	GMTmin=X->tm_min;
-	GMTsec=X->tm_sec;
-	GMTmday=X->tm_mday;
-	GMTmon=X->tm_mon+1;
-	GMTyear=X->tm_year+1900;
-	//cout<<"day ->"<<GMTmday<<"/"<<GMTmon<<"/"<<GMTyear<<endl;
-	//cout<<GMThour<<endl;
-
+	
 }
 
-void GmT_to_epoch_coversion(int &epochserv,int &GMThour,int &GMTmin,int &GMTsec,int &GMTmday,int &GMTmon,int &GMTyear)
-{
+time_t GmT_to_epoch_coversion(tm *X )
+{	
 	struct tm t={0};//initiazlinzing all to zeros
 	time_t epochtime;
-	t.tm_year=GMTyear-1900;
-	t.tm_mon=GMTmon-1;
-	t.tm_mday=GMTmday;
-	t.tm_hour=GMThour;
-	t.tm_min=GMTmin;
-	t.tm_sec=GMTsec;
-	//t.tm_isdst=-1;                                //Is DST on ? 1 on yes / 0 on no / -1 on unknown
+	t.tm_year=X->tm_year;
+	t.tm_mon=X->tm_mon;
+	t.tm_mday=X->tm_mday;
+	t.tm_hour=X->tm_hour+5;
+	t.tm_min=X->tm_min+30;
+	t.tm_sec=X->tm_sec;
 	epochtime = mktime(&t);
-	//cout<<"Seconds since the Epoch is "<< (long) epochtime<<endl;
-	epochserv=(long) epochtime;
-
+	return epochtime;
 }
+
 
