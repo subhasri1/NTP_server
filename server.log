@@ -21,20 +21,6 @@
 [INFO] : Map Inotalization 
 [INFO] : Server are Listening on  8088 
 [INFO] : Sever  acceptance 
-[INFO] : Handshaking with client
-[INFO] : Login or Registration Oparation
-[INFO] : Creating a  Process 
-[INFO] : Server are Listening on  8088 
-[INFO] : Sever  acceptance 
-[INFO] : inside the child Process
-[INFO] : Server performing on client request 
-[INFO] : Handshaking with client
-[INFO] : Login or Registration Oparation
-[INFO] : Creating a  Process 
-[INFO] : Server are Listening on  8088 
-[INFO] : Sever  acceptance 
-[INFO] : inside the child Process
-[INFO] : Server performing on client request 
 [INFO] : Socket creation 
 [INFO] : Sock addr initialization 
 [INFO] : Socket Binding 
@@ -45,40 +31,6 @@
 [INFO] : Sever  acceptance 
 [INFO] : Handshaking with client
 [INFO] : Login or Registration Oparation
-[INFO] : Creating a  Process 
-[INFO] : Server are Listening on  8088 
-[INFO] : Sever  acceptance 
-[INFO] : inside the child Process
-[INFO] : Server performing on client request 
-[INFO] : Handshaking with client
-[INFO] : Login or Registration Oparation
-[INFO] : Creating a  Process 
-[INFO] : Server are Listening on  8088 
-[INFO] : Sever  acceptance 
-[INFO] : inside the child Process
-[INFO] : Server performing on client request 
-[INFO] : Socket creation 
-[INFO] : Sock addr initialization 
-[INFO] : Socket Binding 
-[INFO] : Server Listening 
-[INFO] : Map(STL) creation 
-[INFO] : Map Inotalization 
-[INFO] : Server are Listening on  8088 
-[INFO] : Sever  acceptance 
-[INFO] : Handshaking with client
-[INFO] : Login or Registration Oparation
-[INFO] : Creating a  Process 
-[INFO] : Server are Listening on  8088 
-[INFO] : Sever  acceptance 
-[INFO] : inside the child Process
-[INFO] : Server performing on client request 
-[INFO] : Handshaking with client
-[INFO] : Login or Registration Oparation
-[INFO] : Creating a  Process 
-[INFO] : Server are Listening on  8088 
-[INFO] : Sever  acceptance 
-[INFO] : inside the child Process
-[INFO] : Server performing on client request 
 [INFO] : Socket creation 
 [INFO] : Sock addr initialization 
 [INFO] : Socket Binding 

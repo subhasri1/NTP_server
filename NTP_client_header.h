@@ -11,6 +11,12 @@ using namespace std;
 #include<stdlib.h>//atoi
 #include<time.h>//gmt
 
+
+#define SIZE 256
+extern char buffer[SIZE];
+extern int client_des;
+
+
 class newUser
 {
 	//data member for class
@@ -18,6 +24,8 @@ class newUser
 	public:
 	//function member for class
 	
+	newUser();
+	newUser(string mobile,string name,string userId,string password,string emailId,string temp_Password);
 	//creating a new User
 	void add_new_User();
 	
@@ -40,3 +48,7 @@ void choice_and_port_set_on_cmd_line_argument(int argc,char* argv[],int &port,in
 
 //signal handler
 void sig_handler(int signum);
+
+
+
+

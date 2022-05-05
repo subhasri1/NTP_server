@@ -1,53 +1,45 @@
-==152279== Memcheck, a memory error detector
-==152279== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==152279== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
-==152279== Command: ./server
-==152279== 
+==4305== Memcheck, a memory error detector
+==4305== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==4305== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==4305== Command: ./server
+==4305== 
 Server are listening on port Number 8088
 Server are listening on port Number 8088
-Requisting By Client for Time
-==152311== Syscall param write(buf) points to uninitialised byte(s)
-==152311==    at 0x4B680A7: write (write.c:26)
-==152311==    by 0x10C524: transact_with_client(int) (in /home/deepak/NTP_server/server)
-==152311==    by 0x10C195: main (in /home/deepak/NTP_server/server)
-==152311==  Address 0x1ffefffabb is on thread 1's stack
-==152311==  in frame #1, created by transact_with_client(int) (???:)
-==152311== 
-Requisting By Client for Time
-==152311== 
-==152311== HEAP SUMMARY:
-==152311==     in use at exit: 10,121 bytes in 18 blocks
-==152311==   total heap usage: 158 allocs, 140 frees, 145,192 bytes allocated
-==152311== 
-==152311== LEAK SUMMARY:
-==152311==    definitely lost: 0 bytes in 0 blocks
-==152311==    indirectly lost: 0 bytes in 0 blocks
-==152311==      possibly lost: 0 bytes in 0 blocks
-==152311==    still reachable: 10,121 bytes in 18 blocks
-==152311==         suppressed: 0 bytes in 0 blocks
-==152311== Reachable blocks (those to which a pointer was found) are not shown.
-==152311== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==152311== 
-==152311== Use --track-origins=yes to see where uninitialised values come from
-==152311== For lists of detected and suppressed errors, rerun with: -s
-==152311== ERROR SUMMARY: 2 errors from 1 contexts (suppressed: 0 from 0)
-==152279== 
-==152279== Process terminating with default action of signal 2 (SIGINT)
-==152279==    at 0x4B7A107: accept (accept.c:26)
-==152279==    by 0x10BF20: main (in /home/deepak/NTP_server/server)
-==152279== 
-==152279== HEAP SUMMARY:
-==152279==     in use at exit: 10,121 bytes in 18 blocks
-==152279==   total heap usage: 59 allocs, 41 frees, 98,883 bytes allocated
-==152279== 
-==152279== LEAK SUMMARY:
-==152279==    definitely lost: 0 bytes in 0 blocks
-==152279==    indirectly lost: 0 bytes in 0 blocks
-==152279==      possibly lost: 0 bytes in 0 blocks
-==152279==    still reachable: 10,121 bytes in 18 blocks
-==152279==         suppressed: 0 bytes in 0 blocks
-==152279== Reachable blocks (those to which a pointer was found) are not shown.
-==152279== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==152279== 
-==152279== For lists of detected and suppressed errors, rerun with: -s
-==152279== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+Requesting By Client for Time
+Requesting By Client for Time
+==4319== 
+==4319== HEAP SUMMARY:
+==4319==     in use at exit: 8,760 bytes in 3 blocks
+==4319==   total heap usage: 125 allocs, 122 frees, 159,273 bytes allocated
+==4319== 
+==4319== LEAK SUMMARY:
+==4319==    definitely lost: 0 bytes in 0 blocks
+==4319==    indirectly lost: 0 bytes in 0 blocks
+==4319==      possibly lost: 0 bytes in 0 blocks
+==4319==    still reachable: 8,760 bytes in 3 blocks
+==4319==         suppressed: 0 bytes in 0 blocks
+==4319== Reachable blocks (those to which a pointer was found) are not shown.
+==4319== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==4319== 
+==4319== For lists of detected and suppressed errors, rerun with: -s
+==4319== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==4305== 
+==4305== Process terminating with default action of signal 2 (SIGINT)
+==4305==    at 0x4B7A107: accept (accept.c:26)
+==4305==    by 0x10BF20: main (in /home/deepak/NTP_server/server)
+==4305== 
+==4305== HEAP SUMMARY:
+==4305==     in use at exit: 8,760 bytes in 3 blocks
+==4305==   total heap usage: 10 allocs, 7 frees, 94,472 bytes allocated
+==4305== 
+==4305== LEAK SUMMARY:
+==4305==    definitely lost: 0 bytes in 0 blocks
+==4305==    indirectly lost: 0 bytes in 0 blocks
+==4305==      possibly lost: 0 bytes in 0 blocks
+==4305==    still reachable: 8,760 bytes in 3 blocks
+==4305==         suppressed: 0 bytes in 0 blocks
+==4305== Reachable blocks (those to which a pointer was found) are not shown.
+==4305== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==4305== 
+==4305== For lists of detected and suppressed errors, rerun with: -s
+==4305== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

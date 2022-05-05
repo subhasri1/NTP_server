@@ -1,6 +1,6 @@
 #include "NTP_server_header.h"
 
-#define size 256
+
 
 //userid and password copying from file to STL
 void user_cred_file_to_map(map<string, string> &user_cred)//key,value--->userid,password
@@ -38,7 +38,7 @@ void login_and_registration_of_user(int cli_des,map<string, string> userCred)
 	while(1)
 	 	{
 	 		int k=0;
-		 	char buffer[size];
+		 	char buffer[SIZE];
 		 	bzero(buffer,sizeof(buffer));	 	
 		 	int n=read(cli_des,&buffer,sizeof(buffer));
 		 	

@@ -4,7 +4,6 @@
 
 #include "NTP_server_header.h"
 
-#define SIZE 256
 
 char buffer[SIZE];
 
@@ -144,7 +143,7 @@ void transact_with_client(int cli_des)
 			{
 				break;	
 			}
-				 cout<<buffer<<" By Client for Time"<<endl;
+			cout<<buffer<<" By Client for Time"<<endl;
 			 
 			char* host_name1 = "us.pool.ntp.org";
 			char* host_name2 = "time.google.com";
@@ -190,9 +189,9 @@ void transact_with_client(int cli_des)
 			//epoch to char
 			string tim=to_string(epoch_time);
 			//cout<<"string"<<tim<<endl;
-			char ep[SIZE];
-			strcpy(ep,tim.c_str());
-			write(cli_des,&ep,sizeof(ep));
+			//char ep[SIZE];
+			strcpy(buffer,tim.c_str());
+			write(cli_des,&buffer,sizeof(buffer));
 		
 		}//end pof inner loop
 }

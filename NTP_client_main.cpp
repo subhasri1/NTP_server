@@ -4,7 +4,7 @@
 
 #include "NTP_client_header.h"
 
-#define SIZE 256
+//#define SIZE 256
 char buffer[SIZE];
 int client_des;
 
@@ -61,16 +61,16 @@ int main(int argc,char *argv[])
 	{
 		foutLog<<"[Info] : Handshaking to server"<<endl;
 		//handshaking with server
-	 	char msg[SIZE];
-	 	bzero(msg,sizeof(msg));
-	 	n=read(client_des,&msg,sizeof(msg));
-	 	if(n!=strlen(msg)==0)
+	 	//char msg[SIZE];
+	 	bzero(buffer,sizeof(buffer));
+	 	n=read(client_des,&buffer,sizeof(buffer));
+	 	if(n!=strlen(buffer)==0)
 	 	{
 	 		cout<<"Handshaking : Error in Reading "<<endl;
 	 		foutLog<<"[error] : Handshaking to server failed"<<endl;
 	 	}else
 	 	{ 
-	 		cout<<msg<<endl;
+	 		cout<<buffer<<endl;
 	 	}
  	}
 	
@@ -148,7 +148,7 @@ int main(int argc,char *argv[])
 						char char_data[len2];
 						strcpy(char_data,data.c_str());
 						n=write(client_des,&char_data,sizeof(char_data)); //data sending to server
-						if(n!=strlen(char_data)==0)
+						if(n==strlen(char_data)==0)
 					 	{
 					 		cout<<"New user : Error in Sending of Data "<<endl;
 					 	}
@@ -181,9 +181,9 @@ int main(int argc,char *argv[])
 		//statement
 		
 		foutLog<<"[INFO] : Requesting to Server for a Server Time"<<endl;
-		string s="Requisting";
+		string s="Requesting";
 		strcpy(buffer,s.c_str());
-		cout<<"Requisting to server for Time"<<endl;
+		cout<<"Requesting to server for Time"<<endl;
 		write(client_des,&buffer,sizeof(buffer));
 		
 		bzero(buffer,sizeof(buffer));

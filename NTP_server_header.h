@@ -13,6 +13,9 @@ using namespace std;
 #include <netdb.h>
 #include <wait.h>
 
+#define SIZE 256
+
+extern char buffer[256];
 
 void user_cred_file_to_map(map<string, string> &user_cred);//key,value--->userid,password
 

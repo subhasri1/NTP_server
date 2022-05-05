@@ -1,6 +1,26 @@
 #include "NTP_client_header.h"
 
-#define size 256
+
+//for testing only
+newUser :: newUser()
+{
+
+}
+
+newUser :: newUser(string mobile,string name,string userId,string password,string emailId,string temp_Password)
+{
+	this -> mobile = mobile;
+	this -> name = name;
+	this -> userId = userId;
+	this -> password = password;
+	this -> emailId = emailId;
+	this -> temp_Password = temp_Password;
+}
+
+//end testing
+
+
+//#define size 256
 void choice_and_port_set_on_cmd_line_argument(int argc,char *argv[],int &port,int &choice)
 {
 	int temp_port;
@@ -97,3 +117,12 @@ void sig_handler(int signum)
   
 }
 
+
+
+
+
+	
+	
+	
+	
+	
